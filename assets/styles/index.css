@@ -1,0 +1,98 @@
+* {
+  margin: 0;
+  padding: 0; }
+
+body {
+  font-family: system, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Lucida Grande", sans-serif; }
+
+section {
+  padding: 5vw 10vw;
+  max-height: 100vh;
+  box-sizing: border-box;
+  overflow: scroll; }
+
+section.text {
+  width: 100vw;
+  border-right: 1px solid black; }
+
+section.text .body {
+  margin-top: 40px; }
+
+.text .title h1 {
+  font-size: 48px;
+  color: #4463ab; }
+.text p {
+  margin-top: 48px;
+  line-height: 96px;
+  font-size: 32px;
+  margin: 20px 0; }
+  .text p .key-word {
+    padding: 8px 12px;
+    min-height: 32px;
+    margin: 0 8px;
+    box-sizing: border-box;
+    -webkit-transition: background-color, padding 1s;
+    -moz-transition: background-color, padding 1s;
+    -o-transition: background-color, padding 1s;
+    transition: background-color, padding 1s; }
+    .text p .key-word.highlighted {
+      background-color: rgba(255, 255, 0, 0.2); }
+    .text p .key-word.gray {
+      background-color: rgba(0, 0, 0, 0.025); }
+    .text p .key-word.normal {
+      padding: 0;
+      margin: 0 6px; }
+    .text p .key-word:focus {
+      outline: none; }
+
+section.module {
+  bottom: 0;
+  position: absolute;
+  width: 100vw;
+  min-height: 100px;
+  background-color: white;
+  padding: 2vw 10vw;
+  box-shadow: 0 1px 10px 1px rgba(0, 0, 0, 0.2);
+  border: none; }
+  section.module h3 {
+    color: black; }
+  section.module .options {
+    list-style: none;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none; }
+    section.module .options .option {
+      display: inline-table;
+      border: 2px solid #4463ab;
+      font-size: 24px;
+      color: #4463ab;
+      background-color: white;
+      text-align: left;
+      padding: 16px 32px;
+      flex: 1;
+      max-width: 14vw; }
+      section.module .options .option p {
+        display: inline; }
+        section.module .options .option p span.key {
+          color: rgba(0, 0, 0, 0.25);
+          display: inline;
+          float: right;
+          font-size: 16px;
+          line-height: 32px; }
+      section.module .options .option:hover {
+        background-color: #4463ab;
+        color: white;
+        cursor: pointer; }
+      section.module .options .option:hover span.key {
+        color: transparent; }
+
+footer {
+  background-color: #FAFAFA;
+  border-top: 1px solid #8A8A8A;
+  height: 80px;
+  width: 100vw;
+  bottom: 0;
+  position: absolute; }
+
+/*# sourceMappingURL=index.css.map */

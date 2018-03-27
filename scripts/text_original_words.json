@@ -1,0 +1,102 @@
+{
+  "title": "美国排华法案",
+  "text": "美国最早的大规模华人移民从1848年到1855年之间加利福尼亚州的淘金热开始。最初，加州政府不支持排斥华人劳工移民，但是后来金矿里的黄金越来越难找以后，反华情绪就越来越高。那时大多数华人住在旧金山，帮助修建越州铁路，或者在餐厅和洗衣店打工。排华法案于1882年通过，是在美国通过的第一部针对特定群族的移民法｡",
+  "words": {
+    "exclude": {
+      "pinyin": "páichì",
+      "en": "exclude",
+      "zh": "排斥",
+      "part_of_speech": "v"
+    },
+    "prohibit": {
+      "pinyin": "jìnzhǐ",
+      "en": "prohibit",
+      "zh": "禁止",
+      "part_of_speech": "v"
+    },
+    "gold rush": {
+      "pinyin": "táojīn rè",
+      "en": "gold rush",
+      "zh": "淘金热",
+      "part_of_speech": "n"
+    },
+    "large scale": {
+      "pinyin": "dà guīmó",
+      "en": "large scale",
+      "zh": "大规模",
+      "part_of_speech": "adj"
+    },
+    "gold mine": {
+      "pinyin": "jīn kuàng",
+      "en": "gold mine",
+      "zh": "金矿",
+      "part_of_speech": "n"
+    },
+    "against": {
+      "pinyin": "zhēnduì",
+      "en": "against",
+      "zh": "针对",
+      "part_of_speech": "v"
+    },
+    "labor": {
+      "pinyin": "láogōng",
+      "en": "labor",
+      "zh": "劳工",
+      "part_of_speech": "n"
+    },
+    "anti-China": {
+      "pinyin": "fǎnhuá",
+      "en": "anti-China",
+      "zh": "反华",
+      "part_of_speech": "adj"
+    },
+    "California": {
+      "pinyin": "jiāzhōu",
+      "en": "California",
+      "zh": "加州",
+      "part_of_speech": "n"
+    },
+    "immigration law": {
+      "pinyin": "yímín fǎ",
+      "en": "immigration law",
+      "zh": "移民法",
+      "part_of_speech": "n"
+    },
+    "San Francisco": {
+      "pinyin": "jiùjīnshān",
+      "en": "San Francisco",
+      "zh": "旧金山",
+      "part_of_speech": "n"
+    },
+    "Chinese people": {
+      "pinyin": "Huárén",
+      "en": "Chinese people",
+      "zh": "华人",
+      "part_of_speech": "n"
+    },
+    "through": {
+      "pinyin": "tōngguò",
+      "en": "through",
+      "zh": "通过",
+      "part_of_speech": "pron"
+    },
+    "railroad": {
+      "pinyin": "tiělù",
+      "en": "railroad",
+      "zh": "铁路",
+      "part_of_speech": "n"
+    },
+    "specific ethnic groups": {
+      "pinyin": "tèdìng zúqún",
+      "en": "specific ethnic groups",
+      "zh": "特定族群",
+      "part_of_speech": "n"
+    },
+    "mood": {
+      "pinyin": "qíngxù",
+      "en": "mood",
+      "zh": "情绪",
+      "part_of_speech": "n"
+    }
+  }
+}

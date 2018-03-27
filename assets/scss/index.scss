@@ -1,0 +1,148 @@
+$gutter-sides: 10vw;
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  // font-family: Georgia, "Times New Roman", "Microsoft YaHei", 微软雅黑, STXihei, 华文细黑, serif;
+  font-family: system, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Lucida Grande", sans-serif;
+  // border-top: 5px solid black;
+}
+
+main {
+}
+
+section {
+  padding: 5vw $gutter-sides;
+  max-height: 100vh;
+  box-sizing: border-box;
+  overflow: scroll;
+}
+
+section.text {
+  width: 100vw;
+  border-right: 1px solid black;
+}
+
+section.text .body {
+  margin-top: 40px;
+}
+
+.text {
+  .title {
+    h1 {
+      font-size: 48px;
+      color: #4463ab;
+    }
+  }
+
+  p {
+    margin-top: 48px;
+    line-height: 96px;
+    font-size: 32px;
+    margin: 20px 0;
+
+    .key-word {
+      padding: 8px 12px;
+      min-height: 32px;
+      margin: 0 8px;
+      box-sizing: border-box;
+
+      &.highlighted {
+        background-color: rgba(yellow, 0.2);
+      }
+
+      &.gray {
+        background-color: rgba(black, 0.025);
+      }
+
+      &.normal {
+        padding: 0;
+        margin: 0 6px;
+      }
+
+      -webkit-transition: background-color, padding 1s;
+      -moz-transition: background-color, padding 1s;
+      -o-transition: background-color, padding 1s;
+      transition: background-color, padding 1s;
+
+      &:focus {
+        outline: none;
+      }
+
+      &:hover {
+
+      }
+    }
+  }
+}
+
+section.module {
+  bottom: 0;
+  position: absolute;
+  width: 100vw;
+  min-height: 100px;
+  background-color: white;
+  padding: 2vw $gutter-sides;
+  box-shadow: 0 1px 10px 1px rgba(0,0,0,0.2);
+  border: none;
+
+  h3 {
+    color: black;
+  }
+
+  .options {
+    list-style: none;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+
+    .option {
+      display: inline-table;
+      border: 2px solid #4463ab;
+      font-size: 24px;
+      color: #4463ab;
+      background-color: white;
+      text-align: left;
+      padding: 16px 32px;
+      flex: 1;
+      max-width: 14vw;
+
+      p {
+        display: inline;
+
+        span {
+          &.key {
+            color: rgba(black, 0.25);
+            display: inline;
+            float: right;
+            font-size: 16px;
+            line-height: 32px;
+          }
+        }
+      }
+
+      &:hover {
+        background-color: #4463ab;
+        color: white;
+        cursor: pointer;
+      }
+
+      &:hover span.key {
+        color: transparent;
+      }
+    }
+  }
+}
+
+footer {
+  background-color: #FAFAFA;
+  border-top: 1px solid #8A8A8A;
+  height: 80px;
+  width: 100vw;
+  bottom: 0;
+  position: absolute;
+}
