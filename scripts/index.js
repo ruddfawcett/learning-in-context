@@ -2,9 +2,15 @@ $.getJSON('./scripts/text.json', ready);
 
 function ready(data) {
   var title, text;
-  var mode = 'en';
-  var words = {};
+
+  var round = 0;
   var current_idx = 0;
+  var num_attempts = 0;
+
+  var mode = 'en';
+
+  var words = {};
+  var learned = [];
 
   populate(data);
   setup(data);
@@ -57,20 +63,39 @@ function ready(data) {
       let idx = parseInt(e.key) - 1;
       if (!isNaN(idx) && idx < 4) {
         var node = $($('.option').get(idx));
-        console.log(node, idx);
         return option_selected(node);
       }
     });
 
     function option_selected(node) {
       if (node.data(mode) == current_word_node.data(mode)) {
+        if (num_attempts == 0) {
+          if (learned.indexOf(node.data(mode)) == -1) {
+            learned.push(node.data(mode));
+            var decimal = learned.length / Object.keys(words).length;
+            var percentage = decimal * 100;
+            $('.number .percentage').text(~~percentage);
+          }
+        }
+        else {
+          num_attempts = 0;
+        }
+
         current_idx++;
         current_word_node.removeClass('highlighted');
         current_word_node.addClass('normal');
         current_word_node.text(current_word_node.data(next_mode(mode)));
 
         if (current_idx + 1 == Object.keys(words).length) {
-          mode = next_mode(mode);
+          round++;
+          if (round == 3) {
+            round = 0;
+            $('.number .percentage').text(0);
+            learned = [];
+            mode = next_mode(mode);
+          }
+
+          $('.number .round').text(round);
           current_idx = 0;
 
           if (next_mode(mode) != 'en') {
@@ -82,7 +107,7 @@ function ready(data) {
         setup();
       }
       else {
-
+        num_attempts++;
       }
     }
   }
