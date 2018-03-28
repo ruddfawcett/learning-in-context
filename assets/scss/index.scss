@@ -178,12 +178,13 @@ section.module {
       }
 
       &:hover {
-        border-color: #F8CE4D;
+        background-color: #4558AC;
+        color: white;
         cursor: pointer;
       }
 
       &:hover span.key {
-        // color: transparent;
+        color: transparent;
       }
     }
   }

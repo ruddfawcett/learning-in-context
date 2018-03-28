@@ -125,8 +125,11 @@ section.module {
           font-size: 16px;
           line-height: 32px; }
       section.module .options .option:hover {
-        border-color: #F8CE4D;
+        background-color: #4558AC;
+        color: white;
         cursor: pointer; }
+      section.module .options .option:hover span.key {
+        color: transparent; }
 
 footer {
   background-color: #FAFAFA;
