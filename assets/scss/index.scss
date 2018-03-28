@@ -84,7 +84,7 @@ section {
 
 section.text {
   width: 100%;
-  height: calc(100vh - 2vh - 100px);
+  height: calc(100vh - 2vh - 80px);
   overflow: scroll;
   box-sizing: border-box;
 }
@@ -158,6 +158,7 @@ section.module {
   padding: 2vw $gutter-sides;
   box-shadow: 0 1px 10px 1px rgba(0,0,0,0.2);
   border: none;
+  background-color: #4B4F55;
 
   .options {
     list-style: none;
@@ -168,31 +169,32 @@ section.module {
 
     .option {
       display: inline-table;
-      border: 2px solid #4558AC;
-      font-size: 24px;
-      color: #4558AC;
-      background-color: white;
+      border: 1px solid #BFC2C9;
+      font-size: 22px;
+      color: #BFC2C9;
+      font-weight: 400;
       text-align: left;
-      padding: 16px 32px;
+      padding: 12px 32px;
       flex: 1;
       max-width: 10vw;
+      border-radius: 2px;
 
       p {
         display: inline;
 
         span {
           &.key {
-            color: rgba(black, 0.25);
+            color: rgba(#F0F0F0, 0.45);
             display: inline;
             float: right;
             font-size: 16px;
-            line-height: 32px;
+            line-height: 24px;
           }
         }
       }
 
       &:hover {
-        background-color: #4558AC;
+        background-color: rgba(#F0F0F0, 0.1);
         color: white;
         cursor: pointer;
       }
