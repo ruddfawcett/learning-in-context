@@ -109,7 +109,10 @@ function ready(data) {
       }
       else {
         num_attempts++;
-        current_word_node.addClass('incorrect');
+        current_word_node.addClass('incorrect').effect('shake', {
+          times: 2,
+          distance: 5
+        });
       }
     }
   }
