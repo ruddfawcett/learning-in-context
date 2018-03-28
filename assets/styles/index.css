@@ -19,13 +19,17 @@ body {
 .sidebar .container {
   margin: 3vw;
   color: #4B4F55; }
-  .sidebar .container h2 {
+  .sidebar .container .header h2 {
     text-transform: uppercase;
     font-size: 16px;
     letter-spacing: 1px;
     font-weight: 600;
     padding-bottom: 12px;
     border-bottom: 1px dotted #475257; }
+  .sidebar .container .header p {
+    margin: 20px 0;
+    line-height: 24px;
+    font-size: 14px; }
   .sidebar .container .progress {
     text-align: center;
     padding: 64px 0;
@@ -35,7 +39,8 @@ body {
     border-bottom: 4px solid #4558AC; }
     .sidebar .container .progress h3 {
       font-size: 36px;
-      color: #4558AC; }
+      color: #4558AC;
+      margin-bottom: 0; }
     .sidebar .container .progress p {
       margin-top: 8px;
       text-transform: uppercase;
@@ -77,12 +82,15 @@ section.text {
     margin: 0 8px;
     box-sizing: border-box;
     white-space: nowrap;
+    border-radius: 2px;
     -webkit-transition: background-color, padding 1s;
     -moz-transition: background-color, padding 1s;
     -o-transition: background-color, padding 1s;
     transition: background-color, padding 1s; }
     .text p .key-word.highlighted {
       background-color: rgba(255, 255, 0, 0.2); }
+    .text p .key-word.incorrect {
+      background-color: rgba(255, 0, 0, 0.075); }
     .text p .key-word.gray {
       background-color: rgba(0, 0, 0, 0.025); }
     .text p .key-word.normal {

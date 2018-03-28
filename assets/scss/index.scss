@@ -28,13 +28,21 @@ body {
   margin: 3vw;
   color: #4B4F55;
 
-  h2 {
-    text-transform: uppercase;
-    font-size: 16px;
-    letter-spacing: 1px;
-    font-weight: 600;
-    padding-bottom: 12px;
-    border-bottom: 1px dotted #475257;
+  .header {
+    h2 {
+      text-transform: uppercase;
+      font-size: 16px;
+      letter-spacing: 1px;
+      font-weight: 600;
+      padding-bottom: 12px;
+      border-bottom: 1px dotted #475257;
+    }
+
+    p {
+      margin: 20px 0;
+      line-height: 24px;
+      font-size: 14px;
+    }
   }
 
   .progress {
@@ -48,6 +56,7 @@ body {
     h3 {
       font-size: 36px;
       color: #4558AC;
+      margin-bottom: 0;
     }
 
     p {
@@ -105,9 +114,19 @@ section.text {
       margin: 0 8px;
       box-sizing: border-box;
       white-space: nowrap;
+      border-radius: 2px;
+
+      -webkit-transition: background-color, padding 1s;
+      -moz-transition: background-color, padding 1s;
+      -o-transition: background-color, padding 1s;
+      transition: background-color, padding 1s;
 
       &.highlighted {
         background-color: rgba(yellow, 0.2);
+      }
+
+      &.incorrect {
+        background-color: rgba(red, 0.075);
       }
 
       &.gray {
@@ -118,11 +137,6 @@ section.text {
         padding: 0;
         margin: 0 6px;
       }
-
-      -webkit-transition: background-color, padding 1s;
-      -moz-transition: background-color, padding 1s;
-      -o-transition: background-color, padding 1s;
-      transition: background-color, padding 1s;
 
       &:focus {
         outline: none;

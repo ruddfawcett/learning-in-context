@@ -69,6 +69,7 @@ function ready(data) {
 
     function option_selected(node) {
       if (node.data(mode) == current_word_node.data(mode)) {
+        current_word_node.removeClass('incorrect');
         if (num_attempts == 0) {
           if (learned.indexOf(node.data(mode)) == -1) {
             learned.push(node.data(mode));
@@ -108,6 +109,7 @@ function ready(data) {
       }
       else {
         num_attempts++;
+        current_word_node.addClass('incorrect');
       }
     }
   }
