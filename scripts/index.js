@@ -1,140 +1,173 @@
 $.getJSON('./scripts/text.json', ready);
 
-function ready(data) {
-  var title, text;
+class Word {
+    constructor(entry) {
+      this.zh = entry.zh;
+      this.en = entry.en;
+      this.pinyin = entry.pinyin;
+      this.part_of_speech = entry.part_of_speech;
+    }
+}
 
-  var round = 0;
-  var current_idx = 0;
-  var num_attempts = 0;
+class WordList {
+  constructor(words) {
+    this.backing_store = {};
+    let keys = Object.keys(words);
 
-  var mode = 'en';
-
-  var words = {};
-  var learned = [];
-
-  populate(data);
-  setup(data);
-
-  function populate() {
-    title = data.title;
-    text = data.text;
-    words = data.words;
-
-    $.each(Object.keys(data.words), function(i, key) {
-      var entry = data.words[key];
-      text = text.replace(entry.zh, `<span class='key-word gray' data-zh='${entry.zh}' data-en='${entry.en}' data-pinyin='${entry.pinyin}'>${entry[mode]}</span>`);
+    var _this = this;
+    $.each(keys, function(i, key) {
+      var entry = words[key];
+      _this.backing_store[md5(entry.zh)] = new Word(words[key]);
     });
-
-    $('.title h1').text(title);
-    $('.body p').html(text);
   }
 
-  function setup() {
-    var current_word_node = $($('.key-word').get(current_idx));
-    current_word_node.removeClass('gray');
-    current_word_node.addClass('highlighted');
+  get list() {
+    return this.backing_store;
+  }
 
-    var keys = Object.keys(words);
-    var stripped_word = keys.splice(keys.indexOf(current_word_node.data('en')), 1)[0];
+  get keys() {
+    return Object.keys(this.backing_store);
+  }
+}
 
-    var shuffled = shuffle(keys);
-    var selected = shuffled.slice(0, 3);
+class LearnMode {
+  constructor(title, text, words, mode) {
+    this.title = title;
+    this.text = text;
 
-    var word_list = [];
-    word_list.push(words[current_word_node.data('en')]);
-    $.each(selected, function(i, word) {
-      word_list.push(words[word]);
-    });
+    this.round = 0;
+    this.word_index = 0;
+    this.num_attempts = 0;
 
-    word_list = shuffle(word_list);
+    this.mode = mode;
+    this.words = new WordList(words);
+    this.reviewed = [];
+  }
 
-    var options = [];
-    $.each(word_list, function(i, word) {
-      var option = build_option(i+1, word);
-      options.push(option);
-      $('.options').append(option);
-    });
+  start() {
+    this.populate();
+    this.setupAnswers();
+  }
+
+  addListeners() {
+    var _this =  this;
 
     $('.option').on('click', function() {
-      option_selected($(this));
+      _this.selected($(this));
     });
 
     $(document).unbind('keyup').bind('keyup', function(e) {
       let idx = parseInt(e.key) - 1;
       if (!isNaN(idx) && idx < 4) {
         var node = $($('.option').get(idx));
-        return option_selected(node);
+        return _this.selected(node);
       }
     });
+  }
 
-    function option_selected(node) {
-      if (node.data(mode) == current_word_node.data(mode)) {
-        current_word_node.removeClass('incorrect');
-        if (num_attempts == 0) {
-          if (learned.indexOf(node.data(mode)) == -1) {
-            learned.push(node.data(mode));
-            var decimal = learned.length / Object.keys(words).length;
-            var percentage = decimal * 100;
-            $('.number .percentage').text(~~percentage);
-          }
+  populate() {
+    $('.title h1').text(this.title);
+    $('.number .round-total').text(Object.keys(this.words.list).length);
+
+    this.populateText();
+  }
+
+  populateText() {
+    var _this = this;
+
+    $.each(this.words.keys, function(i, key) {
+      var entry = _this.words.list[key];
+      _this.text = _this.text.replace(entry.zh, `<span class='key-word' data-key='${md5(entry.zh)}'>${entry[_this.mode]}</span>`);
+    });
+
+    $('.body p').html(this.text);
+  }
+
+  setupAnswers() {
+    var _this = this;
+
+    var active_node = $($('.key-word').get(this.word_index));
+    active_node.removeClass('gray');
+    active_node.addClass('highlighted');
+
+    var keys = this.words.keys;
+    var stripped_word = keys.splice(keys.indexOf(active_node.data('key')), 1)[0];
+
+    var shuffled = this.shuffle(keys);
+    var selected = shuffled.slice(0, 3);
+
+    selected.push(active_node.data('key'));
+    selected = this.shuffle(selected);
+
+    $.each(selected, function(i, key) {
+      $('.options').append(_this.buildOption(i + 1, key));
+    });
+
+    this.addListeners();
+  }
+
+  buildOption(idx, key) {
+    var entry = this.words.list[key];
+    return `<div class='option' data-key='${key}'>
+              <p>${entry[this.nextMode]} <span class='key'>${idx}</span></p>
+            </div>`;
+  }
+
+  selected(option) {
+    var active_node = $($('.key-word').get(this.word_index));
+
+    if (option.data('key') == active_node.data('key')) {
+      active_node.removeClass('incorrect');
+      this.reviewed.push(option.data('key'));
+      $('.number .round-counter').text(this.reviewed.length);
+
+      this.word_index++;
+
+      active_node.removeClass('highlighted');
+      active_node.addClass('reviewed');
+      active_node.text(active_node.data(this.nextMode));
+
+      if (this.word_index + 1 == this.words.keys) {
+        mode = this.nextMode;
+
+        this.word_index = 0;
+
+        if (this.nextMode != 'en') {
+          this.populateText();
         }
-        else {
-          num_attempts = 0;
-        }
-
-        current_idx++;
-        current_word_node.removeClass('highlighted');
-        current_word_node.addClass('normal');
-        current_word_node.text(current_word_node.data(next_mode(mode)));
-
-        if (current_idx + 1 == Object.keys(words).length) {
-          round++;
-          if (round == 3) {
-            round = 0;
-            $('.number .percentage').text(0);
-            learned = [];
-            mode = next_mode(mode);
-          }
-
-          $('.number .round').text(round);
-          current_idx = 0;
-
-          if (next_mode(mode) != 'en') {
-            populate();
-          }
-        }
-
-        $('.options').empty();
-        setup();
       }
-      else {
-        num_attempts++;
-        current_word_node.addClass('incorrect').effect('shake', {
-          times: 2,
-          distance: 5
-        });
-      }
+
+      $('.options').empty();
+      this.setupAnswers();
+    } else {
+      active_node.addClass('incorrect').effect('shake', {
+        times: 2,
+        distance: 5
+      });
     }
   }
 
-  function next_mode(mode) {
-    if (mode == 'en') return 'pinyin';
-    else if (mode == 'pinyin') return 'zh';
-    else return 'en';
+  shuffle(a) {
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+
+    return a;
   }
 
-  function build_option(idx, entry) {
-    return `<div class='option' data-zh='${entry.zh}' data-en='${entry.en}' data-pinyin='${entry.pinyin}'>
-              <p>${entry[next_mode(mode)]} <span class='key'>${idx}</span></p>
-            </div>`;
+  get nextMode() {
+    if (this.mode == 'en') return 'pinyin';
+    else if (this.mode == 'pinyin') return 'zh';
+    else return false;
+  }
+
+  get representation() {
+    return '';
   }
 }
 
-function shuffle(a) {
-  for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
-  }
-
-  return a;
+function ready(data) {
+  var Learn = new LearnMode(data.title, data.text, data.words, 'en');
+  Learn.start();
 }
