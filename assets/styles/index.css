@@ -35,7 +35,7 @@ body {
     padding: 64px 0;
     background-color: white;
     margin: 36px 0;
-    box-shadow: 0 1px 10px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 10px 1px rgba(0, 0, 0, 0.1);
     border-bottom: 4px solid #4558AC; }
     .sidebar .container .progress h3 {
       font-size: 36px;
@@ -83,6 +83,7 @@ section.text {
     box-sizing: border-box;
     white-space: nowrap;
     border-radius: 2px;
+    background-color: rgba(0, 0, 0, 0.025);
     -webkit-transition: background-color, padding 1s;
     -moz-transition: background-color, padding 1s;
     -o-transition: background-color, padding 1s;
@@ -91,11 +92,10 @@ section.text {
       background-color: rgba(255, 255, 0, 0.2); }
     .text p .key-word.incorrect {
       background-color: rgba(255, 0, 0, 0.075); }
-    .text p .key-word.gray {
-      background-color: rgba(0, 0, 0, 0.025); }
-    .text p .key-word.normal {
+    .text p .key-word.reviewed {
       padding: 0;
-      margin: 0 6px; }
+      margin: 0 6px;
+      background-color: white; }
     .text p .key-word:focus {
       outline: none; }
 
