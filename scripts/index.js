@@ -136,7 +136,7 @@ class LearnMode {
 
           this.populateText();
         } else {
-          // GAME IS OVER.
+          alert("You have finished the scaffolding! I'm still working to add more content!");
         }
       }
 
@@ -159,6 +159,7 @@ class LearnMode {
   nextMode() {
     if (this.mode == 'en') return 'pinyin';
     else if (this.mode == 'pinyin') return 'zh';
+    else if (this.mode == 'zh') return 'en';
     else return false;
   }
 }
