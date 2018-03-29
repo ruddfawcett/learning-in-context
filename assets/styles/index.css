@@ -126,6 +126,29 @@ section.module {
       flex: 1;
       max-width: 10vw;
       border-radius: 2px; }
+      section.module .options .option.input, section.module .options .option.submit {
+        padding: 0;
+        width: auto; }
+        section.module .options .option.input input, section.module .options .option.submit input {
+          padding: 12px 32px;
+          font-size: 22px;
+          color: #BFC2C9;
+          width: 100%;
+          background-color: transparent;
+          border: none;
+          box-sizing: border-box; }
+      section.module .options .option.input {
+        max-width: 45vw; }
+        section.module .options .option.input input[type='text']:focus {
+          outline: none; }
+        section.module .options .option.input input[type='text']::placeholder {
+          color: rgba(191, 194, 201, 0.5); }
+      section.module .options .option.submit {
+        max-width: 20vw; }
+        section.module .options .option.submit input[type='button'] {
+          text-align: left; }
+          section.module .options .option.submit input[type='button']:hover {
+            cursor: pointer; }
       section.module .options .option p {
         display: inline; }
         section.module .options .option p span.key {
