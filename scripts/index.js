@@ -33,6 +33,7 @@ class WordList {
 class LearnMode {
   constructor(title, text, words, mode) {
     this.title = title;
+    this.backing_text = text;
     this.text = text;
 
     this.round = 0;
@@ -74,6 +75,7 @@ class LearnMode {
 
   populateText() {
     var _this = this;
+    this.text = this.backing_text;
 
     $.each(this.words.keys, function(i, key) {
       var entry = _this.words.list[key];
@@ -109,7 +111,7 @@ class LearnMode {
   buildOption(idx, key) {
     var entry = this.words.list[key];
     return `<div class='option' data-key='${key}'>
-              <p>${entry[this.nextMode]} <span class='key'>${idx}</span></p>
+              <p>${entry[this.nextMode()]} <span class='key'>${idx}</span></p>
             </div>`;
   }
 
@@ -125,25 +127,23 @@ class LearnMode {
 
       active_node.removeClass('highlighted');
       active_node.addClass('reviewed');
-      active_node.text(active_node.data(this.nextMode));
+      active_node.text(active_node.data(this.nextMode()));
 
-      if (this.word_index + 1 == this.words.keys) {
-        mode = this.nextMode;
+      if (this.word_index == this.words.keys.length) {
+        if (this.nextMode()) {
+          this.mode = this.nextMode();
+          this.word_index = 0;
 
-        this.word_index = 0;
-
-        if (this.nextMode != 'en') {
           this.populateText();
+        } else {
+          // GAME IS OVER.
         }
       }
 
       $('.options').empty();
       this.setupAnswers();
     } else {
-      active_node.addClass('incorrect').effect('shake', {
-        times: 2,
-        distance: 5
-      });
+      active_node.addClass('incorrect');
     }
   }
 
@@ -156,14 +156,10 @@ class LearnMode {
     return a;
   }
 
-  get nextMode() {
+  nextMode() {
     if (this.mode == 'en') return 'pinyin';
     else if (this.mode == 'pinyin') return 'zh';
     else return false;
-  }
-
-  get representation() {
-    return '';
   }
 }
 
