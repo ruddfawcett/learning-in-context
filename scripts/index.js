@@ -47,7 +47,7 @@ class LearnMode {
 
   start() {
     this.populate();
-    this.setupAnswers();
+    this.addMultipleChoice();
   }
 
   addListeners() {
@@ -85,7 +85,7 @@ class LearnMode {
     $('.body p').html(this.text);
   }
 
-  setupAnswers() {
+  addMultipleChoice() {
     var _this = this;
 
     var active_node = $($('.key-word').get(this.word_index));
@@ -102,15 +102,15 @@ class LearnMode {
     selected = this.shuffle(selected);
 
     $.each(selected, function(i, key) {
-      $('.options').append(_this.buildOption(i + 1, key));
+      $('.options').append(_this.buildChoice(i + 1, key));
     });
 
     this.addListeners();
   }
 
-  buildOption(idx, key) {
+  buildChoice(idx, key) {
     var entry = this.words.list[key];
-    return `<div class='option' data-key='${key}'>
+    return `<div class='option multiple-choice' data-key='${key}'>
               <p>${entry[this.nextMode()]} <span class='key'>${idx}</span></p>
             </div>`;
   }
@@ -141,7 +141,7 @@ class LearnMode {
       }
 
       $('.options').empty();
-      this.setupAnswers();
+      this.addMultipleChoice();
     } else {
       active_node.addClass('incorrect');
     }
