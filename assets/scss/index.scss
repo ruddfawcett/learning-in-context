@@ -215,6 +215,10 @@ section.module {
           &:hover {
             cursor: pointer;
           }
+
+          &:focus {
+            outline: none;
+          }
         }
       }
 

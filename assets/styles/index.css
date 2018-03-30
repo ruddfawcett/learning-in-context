@@ -149,6 +149,8 @@ section.module {
           text-align: left; }
           section.module .options .option.submit input[type='button']:hover {
             cursor: pointer; }
+          section.module .options .option.submit input[type='button']:focus {
+            outline: none; }
       section.module .options .option p {
         display: inline; }
         section.module .options .option p span.key {

@@ -28,6 +28,10 @@ class WordList {
   get keys() {
     return Object.keys(this.backing_store);
   }
+
+  byKey(key) {
+    return this.backing_store[key];
+  }
 }
 
 class LearnMode {
@@ -35,6 +39,14 @@ class LearnMode {
     this.title = title;
     this.backing_text = text;
     this.text = text;
+    this.types = [
+      'choice',
+      'type'
+    ];
+
+    this.active_node = null;
+
+    this.type = this.randomType();
 
     this.round = 0;
     this.word_index = 0;
@@ -47,10 +59,10 @@ class LearnMode {
 
   start() {
     this.populate();
-    this.addMultipleChoice();
+    this.nextAnswer();
   }
 
-  addListeners() {
+  addChoiceListeners() {
     var _this =  this;
 
     $('.option').on('click', function() {
@@ -62,6 +74,20 @@ class LearnMode {
       if (!isNaN(idx) && idx < 4) {
         var node = $($('.option').get(idx));
         return _this.selected(node);
+      }
+    });
+  }
+
+  addTextListeners() {
+    var _this =  this;
+
+    $('.option input[type="button"]').on('click', function() {
+      _this.responded();
+    });
+
+    $(document).bind('keypress', function(e) {
+      if (e.which == 13) {
+        _this.responded();
       }
     });
   }
@@ -88,24 +114,36 @@ class LearnMode {
   addMultipleChoice() {
     var _this = this;
 
-    var active_node = $($('.key-word').get(this.word_index));
-    active_node.removeClass('gray');
-    active_node.addClass('highlighted');
-
     var keys = this.words.keys;
-    var stripped_word = keys.splice(keys.indexOf(active_node.data('key')), 1)[0];
+    var stripped_word = keys.splice(keys.indexOf(this.active_node.data('key')), 1)[0];
 
     var shuffled = this.shuffle(keys);
     var selected = shuffled.slice(0, 3);
 
-    selected.push(active_node.data('key'));
+    selected.push(this.active_node.data('key'));
     selected = this.shuffle(selected);
 
     $.each(selected, function(i, key) {
       $('.options').append(_this.buildChoice(i + 1, key));
     });
 
-    this.addListeners();
+    this.addChoiceListeners();
+  }
+
+  addTextBox(key) {
+    var _this = this;
+
+    $('.options').append(`
+      <div class='option input'>
+        <input type='text' placeholder='' data-key='${key}' />
+      </div>
+      <div class='option submit'>
+        <input type='button' value='Answer' />
+      </div>`);
+
+    $('.option input[type="text"]').focus();
+
+    this.addTextListeners();
   }
 
   buildChoice(idx, key) {
@@ -116,44 +154,67 @@ class LearnMode {
   }
 
   selected(option) {
-    var active_node = $($('.key-word').get(this.word_index));
-
-    if (option.data('key') == active_node.data('key')) {
-      active_node.removeClass('incorrect');
-      this.reviewed.push(option.data('key'));
-      $('.number .round-counter').text(this.reviewed.length);
-
-      this.word_index++;
-
-      active_node.removeClass('highlighted');
-      active_node.addClass('reviewed');
-      active_node.text(active_node.data(this.nextMode()));
-
-      if (this.word_index == this.words.keys.length) {
-        if (this.nextMode()) {
-          this.mode = this.nextMode();
-          this.word_index = 0;
-
-          this.populateText();
-        } else {
-          alert("You have finished the scaffolding! I'm still working to add more content!");
-        }
-      }
-
-      $('.options').empty();
-      this.addMultipleChoice();
+    if (option.data('key') == this.active_node.data('key')) {
+      this.correctResponse();
     } else {
-      active_node.addClass('incorrect');
+      this.active_node.addClass('incorrect').effect('shake', {
+        times: 2,
+        distance: 5
+      });
     }
   }
 
-  shuffle(a) {
-    for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
+  responded(key) {
+    var key = this.active_node.data('key');
+    var response = $('.option input[type="text"]').val();
+
+    var entry = this.words.byKey(key);
+    var answer = entry[this.nextMode()];
+
+    if (response == answer) {
+      this.correctResponse();
+    } else {
+      this.active_node.addClass('incorrect')
+    }
+  }
+
+  nextAnswer() {
+    this.active_node = $($('.key-word').get(this.word_index));
+    this.active_node.removeClass('gray');
+    this.active_node.addClass('highlighted');
+
+    if (this.randomType() == 'choice') {
+      this.addMultipleChoice();
+    }
+    else {
+      this.addTextBox();
+    }
+  }
+
+  correctResponse() {
+    this.active_node.removeClass('incorrect');
+    this.reviewed.push(this.active_node.data('key'));
+    $('.number .round-counter').text(this.reviewed.length);
+
+    this.word_index++;
+
+    this.active_node.removeClass('highlighted');
+    this.active_node.addClass('reviewed');
+    this.active_node.text(this.active_node.data(this.nextMode()));
+
+    if (this.word_index == this.words.keys.length) {
+      if (this.nextMode()) {
+        this.mode = this.nextMode();
+        this.word_index = 0;
+
+        this.populateText();
+      } else {
+        alert("You have finished the scaffolding! I'm still working to add more content!");
+      }
     }
 
-    return a;
+    $('.options').empty();
+    this.nextAnswer();
   }
 
   nextMode() {
@@ -161,6 +222,20 @@ class LearnMode {
     else if (this.mode == 'pinyin') return 'zh';
     else if (this.mode == 'zh') return 'en';
     else return false;
+  }
+
+    shuffle(a) {
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+
+      return a;
+    }
+
+  randomType() {
+    let idx = Math.floor(Math.random() * Math.floor(2));
+    return this.types[idx];
   }
 }
 
