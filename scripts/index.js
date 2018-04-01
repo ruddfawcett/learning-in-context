@@ -70,6 +70,13 @@ class WordList {
 
     return cumulative_score / POSSIBLE_SCORE;
   }
+
+  get progress() {
+    let score = this.listScore;
+    var percentage = score * 100;
+
+    return ~~percentage;
+  }
 }
 
 class LearnMode {
@@ -86,7 +93,7 @@ class LearnMode {
 
     this.type = this.randomType();
 
-    this.round = 0;
+    this.round = 1;
     this.word_index = 0;
     this.num_attempts = 0;
 
@@ -195,7 +202,7 @@ class LearnMode {
     if (option.data('key') == this.active_node.data('key')) {
       this.correctResponse();
     } else {
-      this.active_node.addClass('incorrect');
+      this.incorrectResponse();
     }
   }
 
@@ -209,7 +216,7 @@ class LearnMode {
     if (response == answer) {
       this.correctResponse();
     } else {
-      this.active_node.addClass('incorrect')
+      this.incorrectResponse();
     }
   }
 
@@ -226,17 +233,25 @@ class LearnMode {
     // }
   }
 
+  incorrectResponse() {
+    this.active_node.addClass('incorrect');
+    this.num_attempts++;
+  }
+
   correctResponse() {
     this.active_node.removeClass('incorrect');
     let key = this.active_node.data('key');
 
-    var word = this.words.get(this.active_node.data('key'));
-    word.score.update(this.mode, 1);
-
-    console.log(this.words.listScore);
+    if (this.num_attempts == 0) {
+      var word = this.words.get(this.active_node.data('key'));
+      word.score.update(this.mode, 1);
+      $('.number .percentage').text(this.words.progress);
+    }
 
     this.reviewed.push(key);
-    $('.number .round-counter').text(this.reviewed.length);
+    $('.number .word-counter').text(this.reviewed.length);
+
+    this.num_attempts = 0;
     this.word_index++;
 
     this.active_node.removeClass('highlighted');
@@ -244,13 +259,17 @@ class LearnMode {
     this.active_node.text(this.active_node.data(this.nextMode()));
 
     if (this.word_index == this.words.keys.length) {
-      if (this.nextMode()) {
+      if (this.round < 3) {
         this.mode = this.nextMode();
+        $('.number .word-counter').text(0);
+
+        this.round++;
+        this.reviewed = [];
         this.word_index = 0;
 
         this.populateText();
       } else {
-        alert("You have finished the scaffolding! I'm still working to add more content!");
+        this.saveRound();
       }
     }
 
@@ -277,6 +296,10 @@ class LearnMode {
   randomType() {
     let idx = Math.floor(Math.random() * Math.floor(2));
     return this.types[idx];
+  }
+
+  saveRound() {
+    
   }
 }
 
