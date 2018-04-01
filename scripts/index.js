@@ -137,6 +137,13 @@ class LearnMode {
     });
   }
 
+  removeListeners() {
+    $(document).unbind('keyup');
+    $(document).unbind('keypress');
+    $('.option').unbind('click');
+    $('.option input[type="button"]').unbind('click');
+  }
+
   populate() {
     $('.title h1').text(this.title);
     $('.number .round-total').text(Object.keys(this.words.list).length);
@@ -259,18 +266,20 @@ class LearnMode {
     this.active_node.text(this.active_node.data(this.nextMode()));
 
     if (this.word_index == this.words.keys.length) {
-      if (this.round < 3) {
-        this.mode = this.nextMode();
-        $('.number .word-counter').text(0);
-
-        this.round++;
-        this.reviewed = [];
-        this.word_index = 0;
-
-        this.populateText();
-      } else {
-        this.saveRound();
+      if (this.round == 3) {
+        Log('asdfasdf');
+        this.removeListeners();
+        return this.saveRound();
       }
+
+      this.mode = this.nextMode();
+      $('.number .word-counter').text(0);
+
+      this.round++;
+      this.reviewed = [];
+      this.word_index = 0;
+
+      this.populateText();
     }
 
     $('.options').empty();
@@ -299,7 +308,7 @@ class LearnMode {
   }
 
   saveRound() {
-    
+
   }
 }
 
