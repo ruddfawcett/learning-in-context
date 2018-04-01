@@ -179,7 +179,7 @@ class LearnMode {
       if (_this.mastery.availableAt - moment() <= 0) {
         clearInterval(interval);
         $('.options').empty();
-        return this.start();
+        return _this.start();
       }
 
       $('.option .from-now').text(timeString());
