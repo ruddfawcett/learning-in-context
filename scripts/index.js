@@ -100,11 +100,18 @@ class LearnMode {
     this.mode = mode;
     this.words = new WordList(words);
     this.reviewed = [];
+
+    this.mastery = new MasteryStorage();
   }
 
   start() {
-    this.populate();
-    this.nextAnswer();
+    if (this.mastery.shouldRun) {
+      this.populate();
+      this.nextAnswer();
+    }
+    else {
+      Log(this.mastery)
+    }
   }
 
   addChoiceListeners() {
@@ -267,9 +274,8 @@ class LearnMode {
 
     if (this.word_index == this.words.keys.length) {
       if (this.round == 3) {
-        Log('asdfasdf');
         this.removeListeners();
-        return this.saveRound();
+        return this.mastery.update(this.words.progress);
       }
 
       this.mode = this.nextMode();
@@ -306,9 +312,69 @@ class LearnMode {
     let idx = Math.floor(Math.random() * Math.floor(2));
     return this.types[idx];
   }
+}
 
-  saveRound() {
+class MasteryStorage {
+  constructor() {
+    if (this.isNull) {
+      this.backing_store = [];
+    }
+    else {
+      this.backing_store = LS.get('mastery-data');
+    }
+  }
 
+  update(progress) {
+    var latest_round = 0;
+    if (!this.isNull) {
+      latest_round = this.backing_store[this.backing_store.length - 1].round;
+    }
+
+    var timestamp = moment();
+    let interval = this.nextRoundFrom(this.latest_round);
+
+    this.backing_store.push({
+      'round': latest_round + 1,
+      'progess': progress,
+      'completed_at': timestamp,
+      'next_round_available_at': timestamp.clone().add(interval, 'minutes')
+    });
+
+    this.save();
+  }
+
+  save() {
+    LS.set('mastery-data', this.backing_store);
+    Log(LS.get('mastery-data'));
+  }
+
+  nextRoundFrom(round) {
+    // Three review rounds without a time cap.
+    if (round < 4) {
+      return 0;
+    }
+
+    // After x rounds, come back after:
+    // First "real round."
+    if (round == 4) return 5;
+    if (round == 5) return 10;
+    if (round == 6) return 15;
+    if (round == 7) return 30;
+    if (round == 8) return 60 * 5;
+    if (round == 9) return 60 * 6;
+    if (round == 10) return 60 * 12;
+    if (round == 11) return 60 * 24;
+  }
+
+  get isNull() {
+    return LS.get('mastery-data') === null;
+  }
+
+  get shouldRun() {
+    if (this.isNull) return true;
+
+    let last_object = this.backing_store[this.backing_store.length - 1];
+    return moment() > moment(last_object.next_round_available_at);
   }
 }
 
