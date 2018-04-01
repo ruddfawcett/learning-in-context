@@ -98,6 +98,8 @@ class LearnMode {
     this.num_attempts = 0;
 
     this.mode = mode;
+    this.current_mode = mode;
+
     this.words = new WordList(words);
     this.reviewed = [];
 
@@ -110,7 +112,7 @@ class LearnMode {
       this.nextAnswer();
     }
     else {
-      Log(this.mastery)
+      Log(this.mastery);
     }
   }
 
@@ -164,7 +166,7 @@ class LearnMode {
 
     $.each(this.words.keys, function(i, key) {
       var entry = _this.words.list[key];
-      _this.text = _this.text.replace(entry.zh, `<span class='key-word' data-key='${md5(entry.zh)}'>${entry[_this.mode]}</span>`);
+      _this.text = _this.text.replace(entry.zh, `<span class='key-word' data-key='${md5(entry.zh)}'>${entry[_this.current_mode]}</span>`);
     });
 
     $('.body p').html(this.text);
@@ -258,7 +260,7 @@ class LearnMode {
 
     if (this.num_attempts == 0) {
       var word = this.words.get(this.active_node.data('key'));
-      word.score.update(this.mode, 1);
+      word.score.update(this.current_mode, 1);
       $('.number .percentage').text(this.words.progress);
     }
 
@@ -273,17 +275,22 @@ class LearnMode {
     this.active_node.text(this.active_node.data(this.nextMode()));
 
     if (this.word_index == this.words.keys.length) {
+      this.reviewed = [];
+      this.word_index = 0;
+
       if (this.round == 3) {
-        this.removeListeners();
-        return this.mastery.update(this.words.progress);
+        this.round = 1;
+        this.mastery.update(this.words.progress);
+        this.current_mode = this.mode;
+
+        $('.options').empty();
+        return this.start();
       }
 
-      this.mode = this.nextMode();
+      this.current_mode = this.nextMode();
       $('.number .word-counter').text(0);
 
       this.round++;
-      this.reviewed = [];
-      this.word_index = 0;
 
       this.populateText();
     }
@@ -293,9 +300,9 @@ class LearnMode {
   }
 
   nextMode() {
-    if (this.mode == 'en') return 'pinyin';
-    else if (this.mode == 'pinyin') return 'zh';
-    else if (this.mode == 'zh') return 'en';
+    if (this.current_mode == 'en') return 'pinyin';
+    else if (this.current_mode == 'pinyin') return 'zh';
+    else if (this.current_mode == 'zh') return 'en';
     else return false;
   }
 
@@ -325,7 +332,7 @@ class MasteryStorage {
   }
 
   update(progress) {
-    var latest_round = 0;
+    var latest_round = 1;
     if (!this.isNull) {
       latest_round = this.backing_store[this.backing_store.length - 1].round;
     }
