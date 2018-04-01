@@ -331,7 +331,7 @@ class MasteryStorage {
     }
 
     var timestamp = moment();
-    let interval = this.nextRoundFrom(this.latest_round);
+    let interval = this.nextRoundFrom(latest_round);
 
     this.backing_store.push({
       'round': latest_round + 1,
@@ -350,20 +350,22 @@ class MasteryStorage {
 
   nextRoundFrom(round) {
     // Three review rounds without a time cap.
-    if (round < 4) {
+    if (round < 3) {
       return 0;
     }
 
     // After x rounds, come back after:
     // First "real round."
-    if (round == 4) return 5;
-    if (round == 5) return 10;
-    if (round == 6) return 15;
-    if (round == 7) return 30;
-    if (round == 8) return 60 * 5;
+    if (round == 3) return 5;
+    if (round == 4) return 10;
+    if (round == 5) return 15;
+    if (round == 6) return 30;
+    if (round == 7) return 60 * 2;
+    if (round == 8) return 60 * 3;
     if (round == 9) return 60 * 6;
     if (round == 10) return 60 * 12;
     if (round == 11) return 60 * 24;
+    if (round == 12) return 60 * 48;
   }
 
   get isNull() {
