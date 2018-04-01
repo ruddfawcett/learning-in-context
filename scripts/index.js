@@ -112,7 +112,7 @@ class LearnMode {
       this.nextAnswer();
     }
     else {
-      Log(this.mastery);
+      this.populateTimer();
     }
   }
 
@@ -151,6 +151,39 @@ class LearnMode {
     $(document).unbind('keypress');
     $('.option').unbind('click');
     $('.option input[type="button"]').unbind('click');
+  }
+
+  populateTimer() {
+    var _this = this;
+    $('.title h1').text(this.title);
+    $('.body p').html(this.text);
+
+    $.each(this.words.keys, function(i, key) {
+      var entry = _this.words.list[key];
+      _this.text = _this.text.replace(entry.zh, `<span class='key-word highlighted' data-key='${md5(entry.zh)}'>${entry.zh}</span>`);
+    });
+
+    $('.body p').html(this.text);
+
+    var timeString = function() {
+      return moment().to(_this.mastery.availableAt, true);
+    }
+
+    $('.options').append(`
+      <div class='option full'>
+          <p><b>晚一点回来！</b> You can come back and quiz in <span class='from-now'>${timeString()}</span>. Review the text until then.</p>
+        </div>
+      </div>`);
+
+    var interval = setInterval(function() {
+      if (_this.mastery.availableAt - moment() <= 0) {
+        clearInterval(interval);
+        $('.options').empty();
+        return this.start();
+      }
+
+      $('.option .from-now').text(timeString());
+    }, 1000);
   }
 
   populate() {
@@ -352,7 +385,6 @@ class MasteryStorage {
 
   save() {
     LS.set('mastery-data', this.backing_store);
-    Log(LS.get('mastery-data'));
   }
 
   nextRoundFrom(round) {
@@ -384,6 +416,11 @@ class MasteryStorage {
 
     let last_object = this.backing_store[this.backing_store.length - 1];
     return moment() > moment(last_object.next_round_available_at);
+  }
+
+  get availableAt() {
+    let last_object = this.backing_store[this.backing_store.length - 1];
+    return moment(last_object.next_round_available_at);
   }
 }
 
