@@ -1,12 +1,37 @@
 $.getJSON('./scripts/text.json', ready);
 
-class Word {
-    constructor(entry) {
-      this.zh = entry.zh;
-      this.en = entry.en;
-      this.pinyin = entry.pinyin;
-      this.part_of_speech = entry.part_of_speech;
+class WordScore {
+  constructor() {
+    this.backing_store = {
+      'zh': 0,
+      'pinyin': 0,
+      'en': 0
     }
+  }
+
+  update(mode, score) {
+    if (['zh', 'pinyin', 'en'].indexOf(mode) == -1) return;
+
+    this.backing_store[mode] = score;
+  }
+
+  get total() {
+    let ZH_WEIGHTED = 1;
+    let PINYIN_WEIGHTED = 1;
+    let EN_WEIGHTED = 1;
+    return (this.backing_store.zh * ZH_WEIGHTED) + (this.backing_store.pinyin * PINYIN_WEIGHTED) + (this.backing_store.en * EN_WEIGHTED);
+  }
+}
+
+class Word {
+  constructor(entry) {
+    this.zh = entry.zh;
+    this.en = entry.en;
+    this.pinyin = entry.pinyin;
+    this.part_of_speech = entry.part_of_speech;
+
+    this.score = new WordScore();
+  }
 }
 
 class WordList {
@@ -21,6 +46,10 @@ class WordList {
     });
   }
 
+  get(key) {
+    return this.backing_store[key];
+  }
+
   get list() {
     return this.backing_store;
   }
@@ -29,8 +58,17 @@ class WordList {
     return Object.keys(this.backing_store);
   }
 
-  byKey(key) {
-    return this.backing_store[key];
+  get listScore() {
+    var _this = this;
+    let POSSIBLE_SCORE = this.keys.length * 3;
+    var cumulative_score = 0;
+
+    $.each(this.keys, function(i, key) {
+      let word = _this.backing_store[key];
+      cumulative_score += word.score.total;
+    });
+
+    return cumulative_score / POSSIBLE_SCORE;
   }
 }
 
@@ -157,10 +195,7 @@ class LearnMode {
     if (option.data('key') == this.active_node.data('key')) {
       this.correctResponse();
     } else {
-      this.active_node.addClass('incorrect').effect('shake', {
-        times: 2,
-        distance: 5
-      });
+      this.active_node.addClass('incorrect');
     }
   }
 
@@ -168,7 +203,7 @@ class LearnMode {
     var key = this.active_node.data('key');
     var response = $('.option input[type="text"]').val();
 
-    var entry = this.words.byKey(key);
+    var entry = this.words.get(key);
     var answer = entry[this.nextMode()];
 
     if (response == answer) {
@@ -183,19 +218,25 @@ class LearnMode {
     this.active_node.removeClass('gray');
     this.active_node.addClass('highlighted');
 
-    if (this.randomType() == 'choice') {
+    // if (this.randomType() == 'choice') {
       this.addMultipleChoice();
-    }
-    else {
-      this.addTextBox();
-    }
+    // }
+    // else {
+    //   this.addTextBox();
+    // }
   }
 
   correctResponse() {
     this.active_node.removeClass('incorrect');
-    this.reviewed.push(this.active_node.data('key'));
-    $('.number .round-counter').text(this.reviewed.length);
+    let key = this.active_node.data('key');
 
+    var word = this.words.get(this.active_node.data('key'));
+    word.score.update(this.mode, 1);
+
+    console.log(this.words.listScore);
+
+    this.reviewed.push(key);
+    $('.number .round-counter').text(this.reviewed.length);
     this.word_index++;
 
     this.active_node.removeClass('highlighted');
@@ -224,14 +265,14 @@ class LearnMode {
     else return false;
   }
 
-    shuffle(a) {
-      for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-      }
-
-      return a;
+  shuffle(a) {
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
     }
+
+    return a;
+  }
 
   randomType() {
     let idx = Math.floor(Math.random() * Math.floor(2));
