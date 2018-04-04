@@ -276,12 +276,12 @@ class LearnMode {
     this.active_node.removeClass('gray');
     this.active_node.addClass('highlighted');
 
-    // if (this.randomType() == 'choice') {
+    if (this.randomType() == 'choice') {
       this.addMultipleChoice();
-    // }
-    // else {
-    //   this.addTextBox();
-    // }
+    }
+    else {
+      this.addTextBox();
+    }
   }
 
   incorrectResponse() {
