@@ -205,6 +205,8 @@ class LearnMode {
       var entry = _this.words.list[key];
       _this.text = _this.text.replace(entry.zh, `<span class='key-word gray' data-key='${md5(entry.zh)}'>${entry[_this.current_mode]}</span>`);
     });
+
+     $('.body p').html(this.text);
   }
 
   addMultipleChoice() {
