@@ -80,15 +80,13 @@ body {
 
   .progress {
     text-align: left;
-    // padding: 64px 0;
     padding: 16px;
     background-color: white;
-    margin: 36px 0;
+    margin: 24px 0;
     box-shadow: 0 1px 10px 1px rgba(0,0,0,0.1);
-    border-top: 3px solid #4558AC;
 
     h3 {
-      font-size: 36px;
+      font-size: 24px;
       color: #4558AC;
       margin-bottom: 0;
     }
@@ -98,7 +96,7 @@ body {
       text-transform: uppercase;
       letter-spacing: 1px;
       font-weight: 500;
-      font-size: 14px;
+      font-size: 12px;
     }
   }
 }
