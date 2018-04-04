@@ -158,9 +158,12 @@ class LearnMode {
     $('.title h1').text(this.title);
     $('.body p').html(this.text);
 
+    $('.body p').html(this.text);
+    $('.number .round-master').text(this.mastery.count);
+
     $.each(this.words.keys, function(i, key) {
       var entry = _this.words.list[key];
-      _this.text = _this.text.replace(entry.zh, `<span class='key-word highlighted' data-key='${md5(entry.zh)}'>${entry.zh}</span>`);
+      _this.text = _this.backing_text.replace(entry.zh, `<span class='key-word highlighted' data-key='${md5(entry.zh)}'>${entry.zh}</span>`);
     });
 
     $('.body p').html(this.text);
@@ -189,6 +192,7 @@ class LearnMode {
   populate() {
     $('.title h1').text(this.title);
     $('.number .round-total').text(Object.keys(this.words.list).length);
+    $('.number .round-master').text(this.mastery.count);
 
     this.populateText();
   }
@@ -199,10 +203,8 @@ class LearnMode {
 
     $.each(this.words.keys, function(i, key) {
       var entry = _this.words.list[key];
-      _this.text = _this.text.replace(entry.zh, `<span class='key-word' data-key='${md5(entry.zh)}'>${entry[_this.current_mode]}</span>`);
+      _this.text = _this.text.replace(entry.zh, `<span class='key-word gray' data-key='${md5(entry.zh)}'>${entry[_this.current_mode]}</span>`);
     });
-
-    $('.body p').html(this.text);
   }
 
   addMultipleChoice() {
@@ -274,12 +276,12 @@ class LearnMode {
     this.active_node.removeClass('gray');
     this.active_node.addClass('highlighted');
 
-    if (this.randomType() == 'choice') {
+    // if (this.randomType() == 'choice') {
       this.addMultipleChoice();
-    }
-    else {
-      this.addTextBox();
-    }
+    // }
+    // else {
+    //   this.addTextBox();
+    // }
   }
 
   incorrectResponse() {
@@ -304,7 +306,6 @@ class LearnMode {
     this.word_index++;
 
     this.active_node.removeClass('highlighted');
-    this.active_node.addClass('reviewed');
     this.active_node.text(this.active_node.data(this.nextMode()));
 
     if (this.word_index == this.words.keys.length) {
@@ -315,6 +316,9 @@ class LearnMode {
         this.round = 1;
         this.mastery.update(this.words.progress);
         this.current_mode = this.mode;
+
+        $('.number .percentage').text(0);
+        $('.number .word-counter').text(0);
 
         $('.options').empty();
         return this.start();
@@ -421,6 +425,10 @@ class MasteryStorage {
   get availableAt() {
     let last_object = this.backing_store[this.backing_store.length - 1];
     return moment(last_object.next_round_available_at);
+  }
+
+  get count() {
+    return this.backing_store.length;
   }
 }
 
