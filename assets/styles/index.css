@@ -33,8 +33,7 @@ body {
       display: inline;
       vertical-align: middle;
       height: 44px;
-      box-sizing: border-box;
-      margin-right: 24px; }
+      box-sizing: border-box; }
     .sidebar .bar h2 .dim {
       padding: 0 8px; }
 
