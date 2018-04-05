@@ -89,6 +89,18 @@ body {
       font-size: 24px;
       color: #4558AC;
       margin-bottom: 0;
+
+      &.red {
+        color: #ab4444;
+      }
+
+      &.green {
+        color: #44ab6e;
+      }
+
+      &.yellow {
+        color: #c9b626;
+      }
     }
 
     p {
@@ -97,6 +109,21 @@ body {
       letter-spacing: 1px;
       font-weight: 500;
       font-size: 12px;
+    }
+  }
+
+  .all-rounds {
+    box-shadow: 0 1px 10px 1px rgba(0,0,0,0.1);
+
+    .progress {
+      box-shadow: none;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      border-bottom: 1px solid #F0F0F0;
+
+      &:last-child {
+        border-bottom: none;
+      }
     }
   }
 }

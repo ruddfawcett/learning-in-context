@@ -65,12 +65,27 @@ body {
       font-size: 24px;
       color: #4558AC;
       margin-bottom: 0; }
+      .sidebar .container .progress h3.red {
+        color: #ab4444; }
+      .sidebar .container .progress h3.green {
+        color: #44ab6e; }
+      .sidebar .container .progress h3.yellow {
+        color: #c9b626; }
     .sidebar .container .progress p {
       margin-top: 8px;
       text-transform: uppercase;
       letter-spacing: 1px;
       font-weight: 500;
       font-size: 12px; }
+  .sidebar .container .all-rounds {
+    box-shadow: 0 1px 10px 1px rgba(0, 0, 0, 0.1); }
+    .sidebar .container .all-rounds .progress {
+      box-shadow: none;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      border-bottom: 1px solid #F0F0F0; }
+      .sidebar .container .all-rounds .progress:last-child {
+        border-bottom: none; }
 
 main {
   width: 80vw;
