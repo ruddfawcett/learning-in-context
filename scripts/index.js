@@ -107,6 +107,8 @@ class LearnMode {
   }
 
   start() {
+    this.populateHistory();
+
     if (this.mastery.shouldRun) {
       this.populate();
       this.nextAnswer();
@@ -155,6 +157,8 @@ class LearnMode {
 
   populateTimer() {
     var _this = this;
+    this.text = this.backing_text;
+
     $('.title h1').text(this.title);
     $('.body p').html(this.text);
 
@@ -163,7 +167,7 @@ class LearnMode {
 
     $.each(this.words.keys, function(i, key) {
       var entry = _this.words.list[key];
-      _this.text = _this.backing_text.replace(entry.zh, `<span class='key-word highlighted' data-key='${md5(entry.zh)}'>${entry.zh}</span>`);
+      _this.text = _this.text.replace(entry.zh, `<span class='key-word highlighted' data-key='${md5(entry.zh)}'>${entry.zh}</span>`);
     });
 
     $('.body p').html(this.text);
@@ -207,6 +211,36 @@ class LearnMode {
     });
 
      $('.body p').html(this.text);
+  }
+
+  populateHistory() {
+    if (this.mastery.count > 0) {
+      if ($('.header.rounds').length == 0) {
+        $('.sidebar .container').append(`
+          <div class='header rounds'>
+            <h2>Progress</h2>
+          </div>
+          <div class='all-rounds'></div>`);
+      }
+
+      $('.all-rounds').empty();
+
+      $.each(this.mastery.history, function(i, round) {
+        var health = 'green';
+        if (round.progress <= 80) {
+          health = 'yellow';
+          if (round.progress <=50) {
+            health = 'red';
+          }
+        }
+
+        $('.all-rounds').prepend(`
+          <div class='progress'>
+            <h3 class='number ${health}'>${round.progress}%</h3>
+            <p>Round ${round.round}</p>
+          </div>`);
+      })
+    }
   }
 
   addMultipleChoice() {
@@ -277,6 +311,10 @@ class LearnMode {
     this.active_node = $($('.key-word').get(this.word_index));
     this.active_node.removeClass('gray');
     this.active_node.addClass('highlighted');
+
+    if (this.mastery.count < 3) {
+      return this.addMultipleChoice();
+    }
 
     if (this.randomType() == 'choice') {
       this.addMultipleChoice();
@@ -373,15 +411,17 @@ class MasteryStorage {
   update(progress) {
     var latest_round = 1;
     if (!this.isNull) {
-      latest_round = this.backing_store[this.backing_store.length - 1].round;
+      latest_round = this.backing_store.length + 1;
     }
 
     var timestamp = moment();
     let interval = this.nextRoundFrom(latest_round);
+    console.log(latest_round);
+    console.log(interval);
 
     this.backing_store.push({
-      'round': latest_round + 1,
-      'progess': progress,
+      'round': latest_round,
+      'progress': progress,
       'completed_at': timestamp,
       'next_round_available_at': timestamp.clone().add(interval, 'minutes')
     });
@@ -395,7 +435,7 @@ class MasteryStorage {
 
   nextRoundFrom(round) {
     // Three review rounds without a time cap.
-    if (round < 3) {
+    if (round <= 3) {
       return 0;
     }
 
@@ -431,6 +471,12 @@ class MasteryStorage {
 
   get count() {
     return this.backing_store.length;
+  }
+
+  get history() {
+    return this.backing_store.sort(function(a, b) {
+      return a.round > b.round;
+    });
   }
 }
 
