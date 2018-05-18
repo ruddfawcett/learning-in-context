@@ -15,27 +15,15 @@
     <link rel='stylesheet' href='assets/styles/index.css'>
   </head>
   <body>
+    <!-- <h1><code>tooltip undefined</code></h1> -->
     <div class='wrapper'>
-      <main>
-        <section class='text'>
-          <div class='title'>
-            <h1></h1>
-          </div>
-          <div class='body'>
-            <p></p>
-          </div>
-        </section>
-        <section class='module'>
-          <div class='container'>
-            <div class='options'>
-            </div>
-          </div>
-        </section>
-      </main>
       <div class='sidebar'>
-        <div class='bar'>
-          <h2><img src='./assets/images/mark.svg' /></h2>
-        </div>
+        <header>
+          <a href=''><h3>XUERUI <span class='zh'>學銳</span></h3></a>
+        </header>
+        <!-- <div class='bar'> -->
+          <!-- <h2><img src='./assets/images/mark.svg' /></h2> -->
+        <!-- </div> -->
         <div class='container'>
           <div class='header'>
             <h2>This Round</h2>
@@ -52,14 +40,34 @@
             <h3 class='number'><span class='round-master'>0</span>/12</h3>
             <p>Round</p>
           </div>
+        </div>
       </div>
+      <main>
+        <section class='text'>
+          <div class='title'>
+            <h1></h1>
+          </div>
+          <div class='body'>
+            <p></p>
+          </div>
+        </section>
+        <section class='module'>
+          <div class='container'>
+            <div class='options'>
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
     <!-- <footer></footer> -->
 
     <script src='https://code.jquery.com/jquery-3.3.1.min.js' integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=' crossorigin='anonymous'></script>
+    <script src="https://unpkg.com/tippy.js@2.5.2/dist/tippy.all.min.js"></script>
+
     <script src='./scripts/md5.min.js'></script>
     <script src='./scripts/moment.min.js'></script>
     <script src='./scripts/helpers.js'></script>
-    <script src='./scripts/index.js'></script>
+    <script src='./scripts/app.js'></script>
+    <!-- <script src='./scripts/tooltip.js'></script> -->
   </body>
 </html>

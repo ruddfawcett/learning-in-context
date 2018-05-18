@@ -1,0 +1,81 @@
+{
+  "title": "对话一",
+  "text": "凯凯丽：昨天下午我没找到你，你去哪儿了？\n玛丽亚：我们历史课的学生去校外考察了。这几天我们正在学习上海历史，所以白老师带我们去外滩了。\n凯丽：外滩有什么特别的历史吗？\n玛丽亚：白老师说，1844年英国人开始用外滩作为码头，还开了少公司，外滩就开始发展了。到了1848年，在黄浦江边造了一条大马路，这条马路的名字叫TheBund。\n凯丽：原来是这样，怪不得外国人常常把外滩叫作TheBund。\n玛丽亚：从十九世纪中开始，上海的外国公司和外国银行越来越多，外滩地区成了上海的金融和商业中心，在那里造了很多商业大楼。\n凯丽：你是说外滩那些大楼都是十九世纪造的吗？\n玛丽亚：不，外滩是从十九世纪开始发展的，可是多数的大楼都是在二十年代或者三十年代年代造的。\n凯丽：你知道外滩一共有多少大楼吗？\n玛丽亚：白老师说，在外滩和外滩附近的马路上，一共有五六十座大楼，有英国式，法国式西班牙式，希腊式等等。现在这些大楼都是上海政府要保护的历史建筑。\n凯丽：现在谁在用这些大楼？\n玛丽亚：有些大楼是政府的办公楼。还有一些大楼里有公司，银行，饭店，商店。\n凯丽：对了，外滩还有黄浦公园。黄浦园是什么时候建立的？\n黄浦公园是上海最老的一个公园，是1868年建立的。\n凯丽：历史课社会考察听上去很有意思，让你学了那么多外滩的历史。\n玛丽亚：要是你想了解外滩的历史，黄浦公园里有一个外滩历史纪念馆，里边有很多历史照片，介绍了外滩和上海的发展历史。\n凯丽：是吗？下次去外滩，我一定要去那个纪念馆看一看。\n",
+  "words": {
+    "The Bund": {
+      "pinyin": "wàitān",
+      "en": "The Bund",
+      "zh": "外滩"
+    },
+    "finance": {
+      "pinyin": "jīnróng",
+      "en": "finance",
+      "zh": "金融"
+    },
+    "business": {
+      "pinyin": "shāngyè",
+      "en": "business",
+      "zh": "商业"
+    },
+    "century": {
+      "pinyin": "shìjì",
+      "en": "century",
+      "zh": "世纪"
+    },
+    "build": {
+      "pinyin": "zào",
+      "en": "build",
+      "zh": "造"
+    },
+    "Greece": {
+      "pinyin": "xīlà",
+      "en": "Greece",
+      "zh": "希腊"
+    },
+    "memorial museum, memorial hall": {
+      "pinyin": "jìniànguǎn",
+      "en": "memorial museum, memorial hall",
+      "zh": "纪念馆"
+    },
+    "m.w. for for mountains, large buildings": {
+      "pinyin": "zuò",
+      "en": "m.w. for for mountains, large buildings",
+      "zh": "座"
+    },
+    "protect": {
+      "pinyin": "bǎohù",
+      "en": "protect",
+      "zh": "保护"
+    },
+    "field trip": {
+      "pinyin": "Xiàowài kǎochá",
+      "en": "field trip",
+      "zh": "校外考察"
+    },
+    "decade of a century": {
+      "pinyin": "niándài",
+      "en": "decade of a century",
+      "zh": "年代"
+    },
+    "style": {
+      "pinyin": "shì",
+      "en": "style",
+      "zh": "式"
+    },
+    "dock": {
+      "pinyin": "mǎtóu",
+      "en": "dock",
+      "zh": "码头"
+    },
+    "Huangpu River": {
+      "pinyin": "huángpǔ jiāng",
+      "en": "Huangpu River",
+      "zh": "黄浦江"
+    },
+    "Huangpu Park": {
+      "pinyin": "huángpǔ gōngyuán",
+      "en": "Huangpu Park",
+      "zh": "黄浦公园"
+    }
+  }
+}

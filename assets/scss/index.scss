@@ -1,6 +1,27 @@
-$gutter-sides: 5vw;
+$blue: #3578e5;
+$black: #1d2129;
+$black-pearl: #1F1F29;
+$charcoal: #282C37;
+$header: white;
+$silver: #C4C9CF;
+$off-white: #FAFAFA;
+$gray: #596981;
 
-// Colors are taken from Quizlet website until I develop my own color palette.
+@mixin box-shadow() {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.04);
+}
+
+p,h1,h2,h3,h4,h5,h6 {
+  span.zh {
+    // color: lighten($blue, 0.5);
+    font-weight: normal;
+    margin-left: 14px;
+    padding-left: 14px;
+    border-left: 1px solid lighten($silver, 0.5);
+  }
+}
+
+$gutter-sides: 5vw;
 
 * {
   margin: 0;
@@ -9,9 +30,8 @@ $gutter-sides: 5vw;
 
 body {
   font-family: system, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Lucida Grande", sans-serif;
-  background-color: #F0F0F0;
+  background-color: lighten(#E9EBEE, 5%);
 }
-
 
 .wrapper {
   display: flex;
@@ -26,18 +46,40 @@ body {
   overflow: auto;
 }
 
-  .sidebar .bar {
+.sidebar {
+  header {
+    box-sizing: border-box;
+    background-color: $header;
+    height: 60px;
+    max-width: inherit;
+    color: $blue;
+    line-height: 60px;
+    padding: 0 2vw;
+    border-bottom: 4px solid #3578e5;
+
+    h3 {
+      color: $black;
+      display: inline-block;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  .bar {
     width: 100%;
-    background-color: #4558AC;
+    background-color: $black;
     box-sizing: border-box;
     color: white;
-    padding: 1vw 3vw;
+    padding: 1vw 2vw;
+
+    h1 {
+      font-size: 24px;
+      padding: 12px 0;
+    }
 
     h2 {
       font-weight: 500;
       font-size: 24px;
       font-weight: 500;
-      // opacity: ;
       text-align: center;
 
       img {
@@ -52,21 +94,20 @@ body {
       }
     }
   }
+}
 
 .sidebar .container {
   margin: 2vw 2vw;
   color: #4B4F55;
 
   .header {
-    margin-bottom: 2vw;
-
     h2 {
       text-transform: uppercase;
-      font-size: 16px;
-      letter-spacing: 1px;
-      font-weight: 600;
-      padding-bottom: 12px;
-      border-bottom: 1px dotted #475257;
+      color: darken($silver, 10%);
+      font-weight: 400;
+      letter-spacing: 0.5px;
+      font-size: 14px;
+      margin-bottom: 24px;
     }
 
     p {
@@ -74,7 +115,6 @@ body {
       line-height: 24px;
       font-size: 14px;
     }
-
   }
 
   .progress {
@@ -82,11 +122,15 @@ body {
     padding: 16px;
     background-color: white;
     margin: 24px 0;
-    box-shadow: 0 1px 10px 1px rgba(0,0,0,0.1);
+    @include box-shadow();
+
+    &:first-of-type {
+      margin-top: 0px;
+    }
 
     h3 {
       font-size: 24px;
-      color: #4558AC;
+      color: $blue;
       margin-bottom: 0;
 
       &.red {
@@ -112,7 +156,7 @@ body {
   }
 
   .all-rounds {
-    box-shadow: 0 1px 10px 1px rgba(0,0,0,0.1);
+    @include box-shadow();
 
     .progress {
       box-shadow: none;
@@ -129,7 +173,8 @@ body {
 
 main {
   width: 80vw;
-  box-shadow: 0 1px 10px 1px rgba(0,0,0,0.2);
+  box-shadow: 0 1px 10px 1px rgba(0,0,0,0.05);
+  // border-left: 2px $black;
   background-color: white;
   height: 100vh;
   position: relative;
@@ -152,7 +197,7 @@ section.text {
   .title {
     h1 {
       font-size: 48px;
-      color: #4558AC;
+      color: $blue;
     }
   }
 
@@ -214,9 +259,9 @@ section.module {
   width: 80vw;
   max-height: 140px;
   padding: 2vw $gutter-sides;
-  box-shadow: 0 1px 10px 1px rgba(0,0,0,0.2);
   border: none;
-  background-color: #4B4F55;
+  background-color: lighten($black, 10%);
+  @include box-shadow();
 
   .options {
     list-style: none;

@@ -1,4 +1,4 @@
-$.getJSON('./scripts/text.json', ready);
+$.getJSON('./scripts/text-420.json', ready);
 
 class WordScore {
   constructor() {
@@ -167,7 +167,7 @@ class LearnMode {
 
     $.each(this.words.keys, function(i, key) {
       var entry = _this.words.list[key];
-      _this.text = _this.text.replace(entry.zh, `<span class='key-word highlighted' data-key='${md5(entry.zh)}'>${entry.zh}</span>`);
+      _this.text = _this.text.replace(entry.zh, `<span class='key-word highlighted' data-key='${md5(entry.zh)}'>${entry.zh}</span>`).replace('\n', '<br />');
     });
 
     $('.body p').html(this.text);
@@ -205,10 +205,29 @@ class LearnMode {
     var _this = this;
     this.text = this.backing_text;
 
-    $.each(this.words.keys, function(i, key) {
-      var entry = _this.words.list[key];
-      _this.text = _this.text.replace(entry.zh, `<span class='key-word gray' data-key='${md5(entry.zh)}'>${entry[_this.current_mode]}</span>`);
-    });
+    // First lesson.
+    // if (this.mastery.count == 0) {
+    //   // $('.module').hide();
+    //   $.each(this.words.keys, function(i, key) {
+    //     var entry = _this.words.list[key];
+    //     _this.text = _this.text.replace(entry.zh, `<span class='key-word highlighted' data-key='${md5(entry.zh)}'>${entry.zh}</span>`).replace('\n', '<br />');;
+    //   });
+    // }
+    // else {
+      $('.module').show();
+      $.each(this.words.keys, function(i, key) {
+        var entry = _this.words.list[key];
+        _this.text = _this.text.replace(entry.zh, `<span class='key-word gray' data-key='${md5(entry.zh)}'>${entry[_this.current_mode]}</span>`).replace('\n', '<br />');;
+      });
+    // }
+
+    // Show tooltip
+    if (true) {
+      // tippy(document.querySelector('.btn'))
+      tippy('#parent', {
+        target: '.key-word'
+      })
+    }
 
      $('.body p').html(this.text);
   }
@@ -298,7 +317,9 @@ class LearnMode {
     var response = $('.option input[type="text"]').val();
 
     var entry = this.words.get(key);
-    var answer = entry[this.nextMode()];
+    // var answer = entry[this.nextMode()];
+    // only enter characters...
+    var answer = entry['zh'];
 
     if (response == answer) {
       this.correctResponse();
@@ -393,7 +414,7 @@ class LearnMode {
   }
 
   randomType() {
-    let idx = Math.floor(Math.random() * Math.floor(2));
+    let idx = Math.floor(Math.random() * Math.floor(this.types.length));
     return this.types[idx];
   }
 }

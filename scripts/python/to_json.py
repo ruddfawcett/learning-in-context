@@ -4,60 +4,57 @@
 import json
 
 words = [
-    '华人',
-    '劳工',
-    '淘金热',
-    '加州',
-    '铁路',
-    '禁止',
-    '针对',
-    '特定族群',
-    '移民法',
-    '通过',
-    '大规模',
-    '反华',
-    '情绪',
-    '旧金山',
-    '排斥',
-    '金矿'
+    '校外考察',
+    '外滩',
+    '码头',
+    '黄浦江',
+    '造',
+    '世纪',
+    '金融',
+    '商业',
+    '年代',
+    '座',
+    '式',
+    '希腊',
+    '保护',
+    '黄浦公园',
+    '纪念馆'
 ]
 
 definitions = [
-    'Chinese people',
-    'labor',
-    'gold rush',
-    'California',
-    'railroad',
-    'prohibit',
-    'against',
-    'specific ethnic groups',
-    'immigration law',
-    'through',
-    'large scale',
-    'anti-China',
-    'mood',
-    'San Francisco',
-    'exclude',
-    'gold mine'
+    'External study',
+    'The Bund',
+    'pier',
+    'Huangpu River',
+    'Make',
+    'century',
+    'financial',
+    'business',
+    'The age',
+    'seat',
+    'formula',
+    'Greece',
+    'protection',
+    'Huangpu Park',
+    'memorial'
 ]
 
 pinyin = [
-    'Huárén',
-    'láogōng',
-    'táojīn rè',
-    'jiāzhōu',
-    'tiělù',
-    'jìnzhǐ',
-    'zhēnduì',
-    'tèdìng zúqún',
-    'yímín fǎ',
-    'tōngguò',
-    'dà guīmó',
-    'fǎnhuá',
-    'qíngxù',
-    'jiùjīnshān',
-    'páichì',
-    'jīn kuàng'
+    'Xiàowài kǎochá',
+    'wàitān',
+    'mǎtóu',
+    'huángpǔ jiāng',
+    'zào',
+    'shìjì',
+    'jīnróng',
+    'shāngyè',
+    'niándài',
+    'zuò',
+    'shì',
+    'xīlà',
+    'bǎohù',
+    'huángpǔ gōngyuán',
+    'jìniànguǎn'
 ]
 
 pos = [
@@ -86,7 +83,7 @@ for idx, val in enumerate(words):
         'zh': val,
         'pinyin': pinyin[idx],
         'en': definitions[idx],
-        'part_of_speech': pos[idx]
+        # 'part_of_speech': pos[idx]
     }
 
 print(json.dumps(dct, ensure_ascii=False))
